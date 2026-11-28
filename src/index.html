@@ -7,6 +7,237 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generation Burger — бургери, які ти запам'ятаєш</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --mustard:#FFC83D; --ink:#2A1A10; --ketchup:#D8281F; --pickle:#4C7A2E; --paper:#FFF4D6; --bun:#E59B3A;
+  --display:'Unbounded','Arial Black',sans-serif; --body:'Onest',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--mustard);color:var(--ink);line-height:1.55;font-size:17px}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+
+/* header */
+header{position:sticky;top:0;z-index:10;background:var(--mustard);border-bottom:3px solid var(--ink)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo{font-family:var(--display);font-weight:900;font-size:18px;letter-spacing:-.02em}
+nav{display:flex;gap:28px;font-weight:700}
+nav a:hover{color:var(--ketchup)}
+.cart{background:var(--ink);color:var(--paper);border:0;border-radius:999px;padding:10px 18px;font:700 15px var(--body);cursor:pointer}
+.cart b{background:var(--ketchup);border-radius:999px;padding:2px 9px;margin-left:6px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:64px 0 80px}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(44px,7.4vw,96px);line-height:.95;letter-spacing:-.04em}
+h1 span{display:block;color:var(--ketchup)}
+.lead{max-width:460px;margin:24px 0 32px;font-size:19px}
+.btn{display:inline-block;background:var(--ketchup);color:#fff;font:700 17px var(--body);padding:16px 30px;border-radius:999px;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);transition:transform .15s,box-shadow .15s;cursor:pointer}
+.btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--ink)}
+.btn.alt{background:var(--paper);color:var(--ink);margin-left:12px}
+
+/* CSS burger */
+.burger{width:min(340px,80vw);margin:0 auto;display:flex;flex-direction:column;align-items:stretch;animation:drop 1s cubic-bezier(.2,1.3,.4,1) both}
+.burger i{display:block;border:3px solid var(--ink)}
+.top{height:96px;background:var(--bun);border-radius:170px 170px 18px 18px;position:relative}
+.top::before,.top::after{content:"";position:absolute;width:14px;height:7px;background:var(--paper);border-radius:50%;top:28px;left:80px;box-shadow:70px 14px 0 var(--paper),130px -4px 0 var(--paper),150px 30px 0 var(--paper),30px 40px 0 var(--paper)}
+.lettuce{height:26px;background:var(--pickle);border-radius:30px 30px 14px 14px;margin:-6px -10px 0}
+.tomato{height:20px;background:var(--ketchup);border-radius:10px;margin:-4px 6px 0}
+.cheese{height:22px;background:#FFE14D;margin:-4px -4px 0;clip-path:polygon(0 0,100% 0,100% 60%,86% 100%,70% 60%,0 60%)}
+.patty{height:46px;background:#5B3420;border-radius:22px;margin:-6px 0 0}
+.bottom{height:40px;background:var(--bun);border-radius:12px 12px 40px 40px;margin-top:-4px}
+@keyframes drop{from{transform:translateY(-60px) rotate(-6deg);opacity:0}to{transform:none;opacity:1}}
+
+/* ticker */
+.ticker{background:var(--ink);color:var(--mustard);overflow:hidden;white-space:nowrap;padding:14px 0;font-family:var(--display);font-weight:700;font-size:16px}
+.ticker div{display:inline-block;animation:slide 28s linear infinite}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* menu */
+section{padding:88px 0}
+h2{font-family:var(--display);font-weight:900;font-size:clamp(32px,5vw,56px);letter-spacing:-.03em;line-height:1.02;margin-bottom:12px}
+.sub{max-width:520px;margin-bottom:40px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
+.tab{background:transparent;border:3px solid var(--ink);border-radius:999px;padding:8px 20px;font:700 15px var(--body);cursor:pointer;color:var(--ink)}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--mustard)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:22px;padding:26px;display:flex;flex-direction:column;box-shadow:6px 6px 0 var(--ink)}
+.card h3{font-family:var(--display);font-size:21px;letter-spacing:-.02em;margin-bottom:8px}
+.card p{flex:1;margin-bottom:20px}
+.row{display:flex;justify-content:space-between;align-items:center}
+.price{font-family:var(--display);font-weight:700;font-size:22px}
+.add{background:var(--ink);color:var(--paper);border:0;border-radius:999px;padding:10px 20px;font:700 15px var(--body);cursor:pointer}
+.add:hover{background:var(--ketchup)}
+.tag{align-self:flex-start;background:var(--pickle);color:#fff;font-size:13px;font-weight:700;border-radius:999px;padding:3px 12px;margin-bottom:14px}
+.tag.hot{background:var(--ketchup)}
+
+/* about */
+.about{background:var(--ketchup);color:var(--paper);border-block:3px solid var(--ink)}
+.about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.stats{display:grid;gap:20px}
+.stat{border:3px solid var(--paper);border-radius:18px;padding:20px 24px}
+.stat b{display:block;font-family:var(--display);font-size:34px}
+
+/* contacts */
+.contacts{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.box{background:var(--paper);border:3px solid var(--ink);border-radius:22px;padding:30px}
+.box h3{font-family:var(--display);font-size:20px;margin-bottom:14px}
+.box dl{display:grid;grid-template-columns:auto 1fr;gap:6px 20px}
+.box dt{font-weight:700}
+form{display:grid;gap:12px}
+input,textarea{font:inherit;padding:12px 16px;border:3px solid var(--ink);border-radius:14px;background:#fff;width:100%}
+textarea{resize:vertical;min-height:90px}
+.ok{font-weight:700;color:var(--pickle);min-height:1.5em}
+
+footer{background:var(--ink);color:var(--paper);padding:28px 0;font-size:15px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+@media(max-width:860px){
+  nav{display:none}
+  .hero,.about .wrap,.contacts{grid-template-columns:1fr}
+  .hero{padding:40px 0 56px}
+  section{padding:60px 0}
+}
+@media(prefers-reduced-motion:reduce){.burger,.ticker div{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a href="#top" class="logo">GENERATION BURGER</a>
+    <nav>
+      <a href="#menu">Меню</a>
+      <a href="#about">Про нас</a>
+      <a href="#contacts">Контакти</a>
+    </nav>
+    <button class="cart" id="cart" aria-label="Кошик">Замовлення <b id="count">0</b></button>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <h1>Generation <span>Burger</span></h1>
+      <p class="lead">Соковита яловичина, булочки з нашої пекарні й соуси, які ми варимо щоранку. Доставляємо за 40 хвилин.</p>
+      <a class="btn" href="#menu">Обрати бургер</a><a class="btn alt" href="#contacts">Як нас знайти</a>
+    </div>
+    <div class="burger" role="img" aria-label="Ілюстрація бургера">
+      <i class="top"></i><i class="lettuce"></i><i class="tomato"></i><i class="cheese"></i><i class="patty"></i><i class="bottom"></i>
+    </div>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div>Свіжа яловичина &nbsp;✦&nbsp; Власна пекарня &nbsp;✦&nbsp; Доставка 40 хв &nbsp;✦&nbsp; Соуси щодня &nbsp;✦&nbsp; Свіжа яловичина &nbsp;✦&nbsp; Власна пекарня &nbsp;✦&nbsp; Доставка 40 хв &nbsp;✦&nbsp; Соуси щодня &nbsp;✦&nbsp;</div>
+  </div>
+
+  <section id="menu">
+    <div class="wrap">
+      <h2>Меню</h2>
+      <p class="sub">Усі бургери подаємо з картоплею фрі та фірмовим соусом. Натисни «Додати», щоб скласти замовлення.</p>
+      <div class="tabs" id="tabs">
+        <button class="tab" data-f="all" aria-pressed="true">Усе</button>
+        <button class="tab" data-f="beef" aria-pressed="false">Яловичина</button>
+        <button class="tab" data-f="chicken" aria-pressed="false">Курка</button>
+        <button class="tab" data-f="veg" aria-pressed="false">Вегетаріанські</button>
+        <button class="tab" data-f="side" aria-pressed="false">Закуски</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <div>
+        <h2>Просто добре зроблений бургер</h2>
+        <p>Ми відкрились у 2019 році з однією плитою і чіткою ідеєю: м'ясо мелемо щодня, булочки печемо зранку, нічого не заморожуємо. Так і працюємо досі.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>180 г</b>свіжої яловичини в кожному патті</div>
+        <div class="stat"><b>40 хв</b>середній час доставки по місту</div>
+        <div class="stat"><b>12</b>соусів власного приготування</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <div class="wrap">
+      <h2>Контакти</h2>
+      <p class="sub">Приходь у гості або залиш повідомлення — відповімо протягом години.</p>
+      <div class="contacts">
+        <div class="box">
+          <h3>Де ми</h3>
+          <dl>
+            <dt>Адреса</dt><dd>вул. Соборна, 12</dd>
+            <dt>Телефон</dt><dd><a href="tel:+380000000000">+38 (000) 000-00-00</a></dd>
+            <dt>Пн–Чт</dt><dd>11:00–22:00</dd>
+            <dt>Пт–Нд</dt><dd>11:00–00:00</dd>
+          </dl>
+        </div>
+        <div class="box">
+          <h3>Написати нам</h3>
+          <form id="form">
+            <input type="text" name="name" placeholder="Ім'я" required aria-label="Ім'я">
+            <input type="tel" name="phone" placeholder="Телефон" required aria-label="Телефон">
+            <textarea name="msg" placeholder="Повідомлення" aria-label="Повідомлення"></textarea>
+            <button class="btn" type="submit">Надіслати</button>
+            <p class="ok" id="ok" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Generation Burger</span><span>Щодня з 11:00</span></div>
+</footer>
+
+<script>
+const items=[
+  {n:'Класичний',d:'Яловичина 180 г, чедар, салат, томат, маринований огірок, фірмовий соус.',p:189,c:'beef',t:'Хіт',h:1},
+  {n:'Димний BBQ',d:'Яловичина, бекон, цибульні кільця, соус BBQ, копчений чедар.',p:219,c:'beef'},
+  {n:'Подвійний',d:'Два патті по 180 г, подвійний сир, карамелізована цибуля.',p:269,c:'beef',t:'Ситний',h:1},
+  {n:'Хрусткий',d:'Курка в панірувальних сухарях, коулслоу, медово-гірчичний соус.',p:169,c:'chicken'},
+  {n:'Гострий птах',d:'Курка в паніровці, халапеньйо, пепер-джек, соус срірача.',p:179,c:'chicken',t:'Гострий',h:1},
+  {n:'Зелений',d:'Патті з нуту й буряка, авокадо, руккола, йогуртовий соус.',p:175,c:'veg',t:'Veg'},
+  {n:'Картопля фрі',d:'Хрустка, з морською сіллю і соусом на вибір.',p:79,c:'side'},
+  {n:'Цибульні кільця',d:'Золотисті, у пивному клярі, з соусом ранч.',p:89,c:'side'}
+];
+const grid=document.getElementById('grid'),count=document.getElementById('count');
+let n=0,filter='all';
+function render(){
+  grid.innerHTML=items.filter(i=>filter==='all'||i.c===filter).map(i=>`
+    <article class="card">
+      ${i.t?`<span class="tag ${i.h?'hot':''}">${i.t}</span>`:''}
+      <h3>${i.n}</h3><p>${i.d}</p>
+      <div class="row"><span class="price">${i.p} ₴</span><button class="add" data-n="${i.n}">Додати</button></div>
+    </article>`).join('');
+}
+grid.addEventListener('click',e=>{
+  const b=e.target.closest('.add'); if(!b) return;
+  count.textContent=++n; b.textContent='Додано ✓';
+  setTimeout(()=>b.textContent='Додати',900);
+});
+document.getElementById('tabs').addEventListener('click',e=>{
+  const t=e.target.closest('.tab'); if(!t) return;
+  filter=t.dataset.f;
+  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-pressed',x===t));
+  render();
+});
+document.getElementById('form').addEventListener('submit',e=>{
+  e.preventDefault();
+  document.getElementById('ok').textContent="Дякуємо! Ми зв’яжемося з вами найближчим часом.";
+  e.target.reset();
+});
+render();
 
 
     <script src="script.js"></script>
